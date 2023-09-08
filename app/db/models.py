@@ -31,10 +31,9 @@ class ItemReview(Base):
     market_item: Mapped["MarketItem"] = relationship(back_populates="reviews")
 
     # # FK Author
-    # author_id: Mapped[int] = mapped_column(ForeignKey("author.id"))
-    # author: Mapped["Author"] = relationship(back_populates="reviews")
+    author_id: Mapped[int] = mapped_column(ForeignKey("author.id"))
+    author: Mapped["Author"] = relationship(back_populates="reviews")
 
-    text = Column(String)
     summary = Column(String)
 
 
@@ -43,3 +42,4 @@ class Author(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     author_name: Mapped[int] = Column(String, unique=True)
+    reviews: Mapped[List["ItemReview"]] = relationship(back_populates="author")

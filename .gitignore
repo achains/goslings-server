@@ -31,3 +31,4 @@ archive.zip
 
 # App data
 app/data/*
+*.db

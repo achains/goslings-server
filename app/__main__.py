@@ -5,13 +5,13 @@ from fastapi import Depends
 from pydantic import HttpUrl, AnyHttpUrl
 from sqlalchemy.orm import Session
 
+from app.populate_db import populate_db
 from app.parser import YandexMarketParser
 from app.db import models
-from app.db import crud
 from app.db import SessionLocal, engine
 
-
 models.Base.metadata.create_all(bind=engine)
+populate_db(SessionLocal())
 
 app = FastAPI()
 
@@ -25,10 +25,13 @@ def get_db():
 
 
 @app.get("/summarize/")
-async def summarize(phone_page: AnyHttpUrl = "", db: Session = Depends(get_db)):
-    parser = YandexMarketParser()
-    result = crud.create_market_item(
-        db, item_type="phone", market_name="yandex", item_name="iphone 13"
-    )
+async def summarize(phone_page: AnyHttpUrl = "", phone_model: str = "", db: Session = Depends(get_db)):
+    phone_reviews = (db.query(models.ItemReview)
+                     .select_from(models.MarketItem).join(models.MarketItem.reviews)
+                     .where(models.MarketItem.item_name == phone_model).all())
 
-    return result.id
+    response = {
+        db.query(models.Author).get(review.author_id).author_name: review.summary for review in phone_reviews
+    }
+
+    return response
