@@ -1,0 +1,90 @@
+/* Стили для контейнера */
+@import url('font_style.css');
+@import url('custom_scroll.css');
+
+
+/* Удаление чужих стилей */
+
+
+
+body {
+    border: 2px solid transparent; /* Рамка */
+    border-radius: 10px; /* Скругление углов */
+    background-color: transparent;
+    box-sizing: content-box; /* Убедитесь, что box-sizing установлен в content-box */
+
+    margin: 0;
+    padding: 0;
+    width: 400px;
+    height: 250px; /* Высота контейнера, при которой будет появляться скролл */
+    overflow-y: auto; /* скролл по горизонтали включается автоматически */
+    overflow-x: hidden; /* скролл по горизонтали отключён */
+}
+
+/* Стили для контейнера */
+.container {
+    font-family: Lato;
+    font-weight: normal;
+    font-style: normal;
+
+    box-sizing: content-box;
+
+    width: 400px; /* Ширина контейнера */
+    height: auto; /* Высота контейнера */
+    padding: 0px; /* Поля внутри контейнера 10px*/
+
+    background: linear-gradient(-31deg, #F5F5F5, #00AA88); /* Градиентный фон */
+
+    overflow-y: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: flex-start;
+}
+
+
+/* Стили для заголовка и картинки */
+.header {
+    display: flex;
+    align-items: flex-start; /* Стили для заголовка и картинки */
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+/* Стили для изображения */
+.image {
+    width: auto; /* Укажите желаемую ширину изображения */
+    height: 48px;
+    /* align-items: flex-end;*/
+    margin-top: 10px; /* отступ сверху */
+    margin-left: 10px; /* Расстояние между изображением и заголовком */
+}
+
+/* Стили для заголовка */
+.title {
+    margin-left: 15px;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+/* Стили для текста */
+.text {
+    
+    font-size: 13px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+}
+
+
+.b {
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-left: 0px;
+}
+
+.i{
+    font-style: italic;
+    margin-bottom: 0;
+    margin-left: 0px;
+}

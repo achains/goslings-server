@@ -1,6 +1,11 @@
 import fastapi
 from fastapi import FastAPI
 from fastapi import Depends
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
+
+import json
 
 from pydantic import HttpUrl, AnyHttpUrl
 from sqlalchemy.orm import Session
@@ -15,6 +20,23 @@ populate_db(SessionLocal())
 
 app = FastAPI()
 
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+    "https://market.yandex.ru",
+    "https://stackoverflow.com"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 def get_db():
     db = SessionLocal()
@@ -25,7 +47,7 @@ def get_db():
 
 
 @app.get("/summarize/")
-async def summarize(phone_page: AnyHttpUrl = "", phone_model: str = "", db: Session = Depends(get_db)):
+async def summarize(phone_model: str = "", db: Session = Depends(get_db)):
     phone_reviews = (db.query(models.ItemReview)
                      .select_from(models.MarketItem).join(models.MarketItem.reviews)
                      .where(models.MarketItem.item_name == phone_model).all())
@@ -34,4 +56,4 @@ async def summarize(phone_page: AnyHttpUrl = "", phone_model: str = "", db: Sess
         db.query(models.Author).get(review.author_id).author_name: review.summary for review in phone_reviews
     }
 
-    return response
+    return JSONResponse(content=jsonable_encoder(response))
