@@ -1,8 +1,7 @@
 # Gosling Sight
-
+![Screenshot](images/icon.PNG)
 Gosling Sight is a browser extension for getting brief reviews on the product from tech bloggers
 
-(картинка)
 
 ## Technologies
 Gosling Sight based on:
