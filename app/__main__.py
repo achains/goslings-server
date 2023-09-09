@@ -1,6 +1,8 @@
 import fastapi
 from fastapi import FastAPI
 from fastapi import Depends
+from fastapi.middleware.cors import CORSMiddleware
+
 
 from pydantic import HttpUrl, AnyHttpUrl
 from sqlalchemy.orm import Session
@@ -14,6 +16,23 @@ models.Base.metadata.create_all(bind=engine)
 populate_db(SessionLocal())
 
 app = FastAPI()
+
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+    "https://market.yandex.ru",
+    "https://stackoverflow.com"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def get_db():
@@ -33,5 +52,5 @@ async def summarize(phone_page: AnyHttpUrl = "", phone_model: str = "", db: Sess
     response = {
         db.query(models.Author).get(review.author_id).author_name: review.summary for review in phone_reviews
     }
-
+    print(response)
     return response

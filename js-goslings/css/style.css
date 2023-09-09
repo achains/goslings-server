@@ -30,7 +30,7 @@ body {
     box-sizing: content-box;
 
     width: 400px; /* Ширина контейнера */
-    height: 250px; /* Высота контейнера */
+    height: auto; /* Высота контейнера */
     padding: 0px; /* Поля внутри контейнера 10px*/
 
     background: linear-gradient(-31deg, #F5F5F5, #00AA88); /* Градиентный фон */
@@ -40,15 +40,15 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    text-align: flex-star;
+    text-align: flex-start;
 }
 
 
 /* Стили для заголовка и картинки */
 .header {
     display: flex;
-    align-items: flex-start;
-    margin-top: 0px;
+    align-items: flex-start; /* Стили для заголовка и картинки */
+    margin-top: 10px;
     margin-bottom: 0px;
 }
 
@@ -71,8 +71,8 @@ body {
 /* Стили для текста */
 .text {
     
-    font-size: 16px;
-    margin-bottom: 0;
+    font-size: 13px;
+    margin-bottom: 0px;
     margin-left: 10px;
 }
 
