@@ -1,5 +1,5 @@
 # Gosling Sight
-<img src="images/icon.PNG" alt="drawing" width="10"/>
+<img src="images/icon.PNG" alt="drawing" width="80"/>
 
 Gosling Sight is a browser extension for getting brief reviews on the product from tech bloggers
 
@@ -18,3 +18,6 @@ Gosling Sight based on:
 docker build -t gosling -f Dockerfile ..
 docker run --rm gosling
 ```
+
+## Example
+<img src="images/market.jpg" alt="drawing"/>
