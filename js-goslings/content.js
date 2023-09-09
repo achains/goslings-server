@@ -5,46 +5,36 @@ var pageHTML = document.documentElement.outerHTML;
 // получаем линк
 const currentURL = window.location.href;
 
-// отпправляем линк
-fetch(`http://127.0.0.1:8000/summarize/?phone_model=nothing%20phone%201`)
-    .then((response) => response.json())
-    .then((data) => {
-        var jsonData = data;
-        console.log(jsonData)
-    })
-
-
-
 // код отправки
 document.addEventListener('DOMContentLoaded', function() {
-    // let jsonData = json_msg
-    // // получаем json, вместо нижнего
-    // fetch(`http://127.0.0.1:8000/summarize/?phone_model=nothing%20phone%201`)
-    //     .then((response) => {
-    //         jsonData = response.json()
-    //     })
+
+    fetch(`http://127.0.0.1:8000/summarize/?phone_model=nothing%20phone%201`)
+        .then((response) => response.json())
+        .then((data) => {
+            const outputElement = document.getElementById('output');
+            for (const blog_name in data) {
+                const text = data[blog_name];
+                const container = document.createElement('div');
+                container.innerHTML = `
+                    <div class="container" style="background: linear-gradient(-31deg, #F5F5F5, ${"00aa88"});">
+                        <div class="header">
+                            <a href="https://4pda.to"  target="_blank">
+                                <img src="images/icon_4pda.svg" alt="Иконка" class="image">
+                            </a>
+                        </div>
+                        <p class="text">${text}</p>
+                        <p class="text" style="margin-bottom: 15px">foo</p>
+                    </div>
+                `;
+                outputElement.appendChild(container);
+            }
+        })
 
     // Элемент, в который вы хотите вставить данные
-    // const outputElement = document.getElementById('output');
     // //
     // //
     // // Проходим по каждому элементу в JSON и создаем HTML-код
-    // for (const id in jsonData) {
-    //     const item = jsonData[id];
-    //     const container = document.createElement('div');
-    //     container.innerHTML = `
-    //         <div class="container" style="background: linear-gradient(-31deg, #F5F5F5, ${item.цвет});">
-    //             <div class="header">
-    //                 <a href="${item.ссылка}"  target="_blank">
-    //                     <img src="${item.imageSrc}" alt="Иконка" class="image">
-    //                 </a>
-    //             </div>
-    //             <p class="text">${item.текст}</p>
-    //             <p class="text" style="margin-bottom: 15px">${item.ткст}</p>
-    //         </div>
-    //     `;
-    //     outputElement.appendChild(container);
-    // };
+
 
 
 

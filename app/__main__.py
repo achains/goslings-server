@@ -2,7 +2,10 @@ import fastapi
 from fastapi import FastAPI
 from fastapi import Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 
+import json
 
 from pydantic import HttpUrl, AnyHttpUrl
 from sqlalchemy.orm import Session
@@ -44,7 +47,7 @@ def get_db():
 
 
 @app.get("/summarize/")
-async def summarize(phone_page: AnyHttpUrl = "", phone_model: str = "", db: Session = Depends(get_db)):
+async def summarize(phone_model: str = "", db: Session = Depends(get_db)):
     phone_reviews = (db.query(models.ItemReview)
                      .select_from(models.MarketItem).join(models.MarketItem.reviews)
                      .where(models.MarketItem.item_name == phone_model).all())
@@ -52,5 +55,5 @@ async def summarize(phone_page: AnyHttpUrl = "", phone_model: str = "", db: Sess
     response = {
         db.query(models.Author).get(review.author_id).author_name: review.summary for review in phone_reviews
     }
-    print(response)
-    return response
+
+    return JSONResponse(content=jsonable_encoder(response))
