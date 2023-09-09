@@ -1,5 +1,5 @@
-# Gosling Sight
-<img src="images/icon.PNG" alt="drawing" width="80"/>
+# Gosling Sight <img src="images/icon.PNG" alt="drawing" width="45"/>
+
 
 Gosling Sight is a browser extension for getting brief reviews on the product from tech bloggers
 
