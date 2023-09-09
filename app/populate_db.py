@@ -13,7 +13,12 @@ import pathlib
 
 
 class DataReader:
-    def __init__(self, review_table_path: PathLike, review_data_path: PathLike, summary_path: PathLike):
+    def __init__(
+        self,
+        review_table_path: PathLike,
+        review_data_path: PathLike,
+        summary_path: PathLike,
+    ):
         self._review_df = pd.read_parquet(review_table_path)
         self._summary_df = pd.read_csv(summary_path)
         self._fix_review(absolute_data_path=review_data_path)
@@ -24,14 +29,16 @@ class DataReader:
 
     def _fix_review(self, absolute_data_path: PathLike):
         self._review_df["path_to_text"] = self._review_df["path_to_text"].apply(
-            lambda entry: str(absolute_data_path) + entry[entry.find('/', 1):]
+            lambda entry: str(absolute_data_path) + entry[entry.find("/", 1) :]
         )
 
 
 def populate_db(db: Session):
-    data_reader = DataReader(review_table_path=Config.review_table,
-                             review_data_path=Config.review_data,
-                             summary_path=Config.summary_table)
+    data_reader = DataReader(
+        review_table_path=Config.review_table,
+        review_data_path=Config.review_data,
+        summary_path=Config.summary_table,
+    )
 
     # Populate author tables
     if db.query(models.Author).first() is None:
@@ -48,13 +55,22 @@ def populate_db(db: Session):
         for _, data_row in data_reader.summary.iterrows():
             phone_name = data_row["phone_name"]
 
-            market_item = (db.query(models.MarketItem)
-                           .filter(models.MarketItem.item_name == phone_name).first())
+            market_item = (
+                db.query(models.MarketItem)
+                .filter(models.MarketItem.item_name == phone_name)
+                .first()
+            )
 
-            author_id = db.query(models.Author).filter(models.Author.author_name == data_row["blogger"]).first()
+            author_id = (
+                db.query(models.Author)
+                .filter(models.Author.author_name == data_row["blogger"])
+                .first()
+            )
 
             if market_item:
-                crud.create_item_review(db,
-                                        summary=data_row["sum_conclusion"],
-                                        market_item_id=market_item.id,
-                                        author_id=author_id.id)
+                crud.create_item_review(
+                    db,
+                    summary=data_row["sum_conclusion"],
+                    market_item_id=market_item.id,
+                    author_id=author_id.id,
+                )

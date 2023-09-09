@@ -26,7 +26,7 @@ origins = [
     "http://localhost",
     "http://localhost:8080",
     "https://market.yandex.ru",
-    "https://stackoverflow.com"
+    "https://stackoverflow.com",
 ]
 
 app.add_middleware(
@@ -48,12 +48,17 @@ def get_db():
 
 @app.get("/summarize/")
 async def summarize(phone_model: str = "", db: Session = Depends(get_db)):
-    phone_reviews = (db.query(models.ItemReview)
-                     .select_from(models.MarketItem).join(models.MarketItem.reviews)
-                     .where(models.MarketItem.item_name == phone_model).all())
+    phone_reviews = (
+        db.query(models.ItemReview)
+        .select_from(models.MarketItem)
+        .join(models.MarketItem.reviews)
+        .where(models.MarketItem.item_name == phone_model)
+        .all()
+    )
 
     response = {
-        db.query(models.Author).get(review.author_id).author_name: review.summary for review in phone_reviews
+        db.query(models.Author).get(review.author_id).author_name: review.summary
+        for review in phone_reviews
     }
 
     return JSONResponse(content=jsonable_encoder(response))
