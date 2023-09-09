@@ -9,5 +9,3 @@ RUN pip install --no-cache-dir --upgrade -r /goslings/requirements.txt
 COPY ./app /goslings/app
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
-
-ENTRYPOINT ["top", "-b"]
